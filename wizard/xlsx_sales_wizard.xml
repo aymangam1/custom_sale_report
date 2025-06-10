@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="xlsx_sales_wizard_form_view">
+            <field name="name">sales excel wizard form</field>
+            <field name="model">sales.excel.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+<!--                            <div>-->
+<!--                                From<field name="from_date" class="oe_inline"/> To <field name="to_date" class="oe_inline"/>-->
+<!--                            </div>-->
+                        <div>
+                            Period: <field name="from_date" string="Date" widget="daterange" options="{'end_date_field': 'to_date'}" />
+                        </div>
+                        <field name="state" widget="selection_badge"/>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="order_ids" widget="many2many_tags" options="{'no_create': True}" invisible="state"/>
+                            <field name="user_ids" widget="many2many_tags_avatar" options="{'no_create': True}"/>
+                            <field name="partner_ids" widget="many2many_tags_avatar" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="product_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="categ_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="detailed" widget="boolean_toggle" invisible="not detailed"/>
+                            <field name="detailed" widget="boolean_toggle" string="Total Report" invisible="detailed"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Confirm" name="XlsxSalesReport" type="object"
+                                class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancel" special="cancel" data-hotkey="x" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_sales_excel_wizard">
+            <field name="name">Generate Sales Excel Report</field>
+            <field name="res_model">sales.excel.wizard</field>
+            <field name="view_id" ref="xlsx_sales_wizard_form_view"/>
+            <field name="target">new</field>
+            <field name="view_mode">form</field>
+        </record>
+    </data>
+</odoo>
